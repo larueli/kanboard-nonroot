@@ -1,0 +1,12 @@
+#
+# Made by Ivann LARUELLE, larueli on github
+#
+kanboard:
+    image: kanboard-nonroot:latest
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    volumes:
+      - ./kanboard_data:/var/www/app/data
+      - ./kanboard_plugins:/var/www/app/plugins
+      - ./kanboard_ssl:/var/www/ssl

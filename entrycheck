@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ ! -d /var/www/app/data ]; then mkdir -m 777 /var/www/app/data; echo "Création du dossier data"; fi
+if [ ! -d /var/www/app/plugins ]; then mkdir -m 777 /var/www/app/plugins; echo "Création du dossier plugins"; fi
+if [ ! -d /var/www/ssl ]; then mkdir -m 777 /var/www/ssl; echo "Création du dossier SSL"; fi
+ls -al /var
+ls -al /var/www
+if [ ! -f /var/www/kanboard.key  ] || [ ! -f /var/www/ssl/kanboard.crt ]
+then
+    openssl req -x509 -nodes -newkey rsa:2048 -keyout /var/www/ssl/kanboard.key -out /var/www/ssl/kanboard.crt -subj '/C=GB/ST=London/L=London/O=Self Signed/OU=IT Department/CN=kanboard.org'
+fi
+chmod 777 /var/www/ssl/*
+if [ -d /var/www/app/configmap ] && [ ! -z $(ls /var/www/app/configmap) ]; then cp -f /var/www/app/configmap/* /var/www/app/; fi
+/usr/sbin/php-fpm7 -D
+/usr/sbin/nginx -g 'daemon off;'

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [[ $1 == "clean" ]]
+then
+    if [ -d kanboard ]; then rm -r kanboard; fi
+    git clone https://github.com/kanboard/kanboard.git
+fi
+
+if [[ $1 == "build" ]]
+then
+    cp entrycheck kanboard/
+    cp -f Dockerfile kanboard/
+    cp -f nginx.conf kanboard/docker/etc/nginx/
+    cp -f php-fpm.conf kanboard/docker/etc/php7/
+    cd kanboard
+    sudo docker build -t kanboard-nonroot:$2 .
+fi
+
+if [[ $1 == "push" ]]
+then
+    sudo docker tag kanboard-nonroot:$2 larueli/kanboard-nonroot:$2
+    sudo docker push larueli/kanboard-nonroot
+fi
+
+if [[ $1 == "run" ]]
+then
+    sudo docker run -p "8080:8080" -p "8443:8443" -d kanboard-nonroot:$2
+fi
