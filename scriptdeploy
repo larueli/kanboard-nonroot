@@ -1,5 +1,8 @@
 #!/bin/bash
-
+#
+# Script to build and run Docker Image for larueli/kanboard-nonroot
+# Made by Ivann LARUELLE - larueli on Github and Docker
+#
 if [[ $1 == "clean" ]]
 then
     if [ -d kanboard ]; then rm -r kanboard; fi

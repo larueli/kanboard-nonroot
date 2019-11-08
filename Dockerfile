@@ -1,4 +1,9 @@
+#
+# Made by Ivann LARUELLE / larueli on GitHub and Docker Hub
+# kanboard-nonroot on Docker Hub
+#
 FROM alpine:latest
+LABEL maintainer="ivann.laruelle@gmail.com"
 
 EXPOSE 8080 8443
 RUN apk --no-cache --update add \
@@ -14,7 +19,7 @@ ADD . /var/www/app
 ADD docker/ /
 
 RUN rm -rf /var/www/app/docker && \
-    chgrp -R 0 /var/www && chmod -R g=rx /var/www && ls -al /var && ls -al /var/www && \
+    chgrp -R 0 /var/www && chmod -R g=rx /var/www && \
     chgrp -R 0 /etc/nginx && chmod -R g=rx /etc/nginx && \
     chgrp -R 0 /etc/php7 && chmod -R g=rx /etc/php7 && \
     chgrp -R 0 /var/cache && chmod -R g=rwx /var/cache && \
