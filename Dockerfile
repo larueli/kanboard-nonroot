@@ -19,7 +19,7 @@ ADD . /var/www/app
 ADD docker/ /
 
 RUN rm -rf /var/www/app/docker && \
-    chgrp -R 0 /var/www && chmod -R g=rx /var/www && \
+    chgrp -R 0 /var/www && chmod -R g=rwx /var/www && \
     chgrp -R 0 /etc/nginx && chmod -R g=rx /etc/nginx && \
     chgrp -R 0 /etc/php7 && chmod -R g=rx /etc/php7 && \
     chgrp -R 0 /var/cache && chmod -R g=rwx /var/cache && \

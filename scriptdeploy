@@ -5,7 +5,7 @@
 #
 if [[ $1 == "clean" ]]
 then
-    if [ -d kanboard ]; then rm -r kanboard; fi
+    if [ -d kanboard ]; then rm -rf kanboard; fi
     git clone https://github.com/kanboard/kanboard.git
 fi
 
