@@ -3,24 +3,14 @@
 # Script to build and run Docker Image for larueli/kanboard-nonroot
 # Made by Ivann LARUELLE - larueli on Github and Docker
 #
-if [[ $1 == "clean" ]]
-then
-    if [ -d kanboard ]; then rm -rf kanboard; fi
-    git clone https://github.com/kanboard/kanboard.git
-fi
-
 if [[ $1 == "build" ]]
 then
-    cp entrycheck kanboard/
-    cp -f Dockerfile kanboard/
-    cp -f nginx.conf kanboard/docker/etc/nginx/
-    cp -f php-fpm.conf kanboard/docker/etc/php7/
-    cd kanboard
     sudo docker build -t kanboard-nonroot:$2 .
 fi
 
 if [[ $1 == "push" ]]
 then
+    sudo docker login
     sudo docker tag kanboard-nonroot:$2 larueli/kanboard-nonroot:$2
     sudo docker push larueli/kanboard-nonroot
 fi

@@ -11,14 +11,14 @@ RUN apk --no-cache --update add \
     php7-fpm php7-json php7-zlib php7-xml php7-dom php7-ctype php7-opcache php7-zip php7-iconv \
     php7-pdo git php7-pdo_mysql php7-pdo_sqlite php7-pdo_pgsql php7-mbstring php7-session php7-bcmath \
     php7-gd php7-mcrypt php7-openssl php7-sockets php7-posix php7-ldap php7-simplexml && \
-    rm -rf /var/www/localhost && \
-    rm -f /etc/php7/php-fpm.d/www.conf && \
-    adduser -D -G root -u 1004 docker-user
+    rm -rf /var/www/localhost && mkdir /var/www/html
 
-ADD . /var/www/app
-ADD docker/ /
+ENV KANBOARD_VERSION v1.2.12
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY php-fpm.conf /etc/php7/php-fpm.d/www.conf
+COPY entrycheck /usr/bin/entrycheck.sh
 
-RUN rm -rf /var/www/app/docker && \
+RUN curl -L -O https://github.com/kanboard/kanboard/archive/${KANBOARD_VERSION}.tar.gz && tar -xf ${KANBOARD_VERSION}.tar.gz --strip 1 -C /var/www/html && rm ${KANBOARD_VERSION}.tar.gz && \
     chgrp -R 0 /var/www && chmod -R g=rwx /var/www && \
     chgrp -R 0 /etc/nginx && chmod -R g=rx /etc/nginx && \
     chgrp -R 0 /etc/php7 && chmod -R g=rx /etc/php7 && \
@@ -27,13 +27,13 @@ RUN rm -rf /var/www/app/docker && \
     chgrp -R 0 /var/log/nginx && chmod -R g=rwx /var/log/nginx && \
     chgrp -R 0 /var/lib/nginx && chmod -R g=rwx /var/lib/nginx && \
     chgrp -R 0 /var/tmp/nginx && chmod -R g=rwx /var/tmp/nginx && \
-    mkdir -m 777 /var/www/ssl && chmod 777 /var/www/app/data && chmod 777 /var/www/app/plugins && mkdir -m 777 /var/www/app/configmap && \
-    mv /var/www/app/entrycheck /usr/bin/entrycheck.sh && chmod +x /usr/bin/entrycheck.sh && crond -b
+    mkdir -m 777 /var/www/ssl && chmod 777 /var/www/html/data && chmod 777 /var/www/html/plugins && mkdir -m 777 /var/www/configmap && \
+    chmod +x /usr/bin/entrycheck.sh && crond -b
 
-VOLUME /var/www/app/data
-VOLUME /var/www/app/plugins
+VOLUME /var/www/html/data
+VOLUME /var/www/html/plugins
 VOLUME /var/www/ssl
 #VOLUME /var/www/app/configmap
 
-USER 1004
+USER 1004:0
 ENTRYPOINT ["/usr/bin/entrycheck.sh"]
