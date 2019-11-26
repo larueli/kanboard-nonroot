@@ -9,6 +9,6 @@ then
     openssl req -x509 -nodes -newkey rsa:2048 -keyout /var/www/ssl/kanboard.key -out /var/www/ssl/kanboard.crt -subj '/C=GB/ST=London/L=London/O=Self Signed/OU=IT Department/CN=kanboard.org'
 fi
 chmod 777 /var/www/ssl/*
-if [ -d /var/www/configmap ] && [ ! -z $(ls /var/www/configmap) ]; then cp -f /var/www/configmap/* /var/www/app/; fi
+if [ -d /var/www/configmap ] && [ ! -z $(ls /var/www/configmap) ]; then cp -f /var/www/configmap/* /var/www/html/; fi
 /usr/sbin/php-fpm7 -D
 /usr/sbin/nginx -g 'daemon off;'
