@@ -13,7 +13,7 @@ RUN apk --no-cache --update add \
     php7-gd php7-mcrypt php7-openssl php7-sockets php7-posix php7-ldap php7-simplexml && \
     rm -rf /var/www/localhost && mkdir /var/www/html
 
-ENV KANBOARD_VERSION v1.2.13
+ENV KANBOARD_VERSION v1.2.14
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /etc/php7/php-fpm.d/www.conf
 COPY entrycheck /usr/bin/entrycheck.sh
