@@ -26,9 +26,8 @@ RUN curl -L -O https://github.com/kanboard/kanboard/archive/${KANBOARD_VERSION}.
     chgrp -R 0 /var/run && chmod -R g=rwx /var/run && \
     chgrp -R 0 /var/log/nginx && chmod -R g=rwx /var/log/nginx && \
     chgrp -R 0 /var/lib/nginx && chmod -R g=rwx /var/lib/nginx && \
-    chgrp -R 0 /var/tmp/nginx && chmod -R g=rwx /var/tmp/nginx && \
     mkdir -m 777 /var/www/ssl && chmod 777 /var/www/html/data && chmod 777 /var/www/html/plugins && mkdir -m 777 /var/www/configmap && \
-    chmod +x /usr/bin/entrycheck.sh && crond -b
+    dos2unix /usr/bin/entrycheck.sh && chmod +x /usr/bin/entrycheck.sh && dos2unix /etc/php7/php-fpm.d/www.conf && dos2unix /etc/nginx/nginx.conf && crond -b
 
 VOLUME /var/www/html/data
 VOLUME /var/www/html/plugins

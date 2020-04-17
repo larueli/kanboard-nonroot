@@ -2,7 +2,7 @@
 # Made by Ivann LARUELLE, larueli on github
 #
 kanboard:
-    image: kanboard-nonroot:latest
+    image: larueli/kanboard-nonroot:latest
     ports:
       - "8080:8080"
       - "8443:8443"
