@@ -13,12 +13,11 @@ RUN apk --no-cache --update add \
     php7-gd php7-mcrypt php7-openssl php7-sockets php7-posix php7-ldap php7-simplexml && \
     rm -rf /var/www/localhost && mkdir /var/www/html
 
-ENV KANBOARD_VERSION v1.2.14
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY php-fpm.conf /etc/php7/php-fpm.d/www.conf
 COPY entrycheck /usr/bin/entrycheck.sh
 
-RUN curl -L -O https://github.com/kanboard/kanboard/archive/${KANBOARD_VERSION}.tar.gz && tar -xf ${KANBOARD_VERSION}.tar.gz --strip 1 -C /var/www/html && rm ${KANBOARD_VERSION}.tar.gz && \
+RUN curl -L $(curl -s https://api.github.com/repos/kanboard/kanboard/releases/latest | grep tarball_url | cut -d: -f2,3 | cut -d"\"" -f2) --output kanboard.tar.gz && tar -xf kanboard.tar.gz --strip 1 -C /var/www/html && rm kanboard.tar.gz && \
     chgrp -R 0 /var/www && chmod -R g=rwx /var/www && \
     chgrp -R 0 /etc/nginx && chmod -R g=rx /etc/nginx && \
     chgrp -R 0 /etc/php7 && chmod -R g=rx /etc/php7 && \
