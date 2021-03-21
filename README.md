@@ -6,22 +6,10 @@ You will find here the build files used to build and run the [kanboard-nonroot d
 
 * Edit of the official kanboard image
 * Works on OpenShift
-* Exec with latest alpine, as non root user and on ports 8080 8443.
 
 ## How is it built ?
 
-You can check the *scriptdeploy* file to see how the script builds the image :
-
-1. clone the kanboard repository
-2. edit the kanboard files (Dockerfile, conf files)
-3. build the image from the Dockerfile
-4. when you run the image, the *entrycheck* script is launched : creation of folders, of certificates if needed, launch of php-fpm and nginx as non root.
-
-## More info about the image
-
-You can go on the page of the [Docker Hub repository](https://hub.docker.com/repository/docker/larueli/kanboard-nonroot)
-
-You can check the [official image](https://hub.docker.com/r/kanboard/kanboard).
+It is built from [larueli/php-base-image](https://github.com/larueli/php-base-image)
 
 # Author
 
